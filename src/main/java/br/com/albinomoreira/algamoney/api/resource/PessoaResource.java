@@ -16,39 +16,39 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import br.com.albinomoreira.algamoney.api.model.Categoria;
-import br.com.albinomoreira.algamoney.api.repository.CategoriaRepository;
+import br.com.albinomoreira.algamoney.api.model.Pessoa;
+import br.com.albinomoreira.algamoney.api.repository.PessoaRepositoy;
 
 @RestController
-@RequestMapping("/categorias")
-public class CategoriaResource {
-
+@RequestMapping("/pessoas")
+public class PessoaResource {
+	
 	@Autowired
-	private CategoriaRepository categoriaRepository;
+	private PessoaRepositoy pessoaRepositoy;
 	
 	@GetMapping
-	public List<Categoria> listar(){
-		return categoriaRepository.findAll();
+	public List<Pessoa> findAll(){
+		return pessoaRepositoy.findAll();
 	}
-	
+
 	@PostMapping
-	public ResponseEntity<Categoria> criar(@Valid @RequestBody Categoria categoria, HttpServletResponse response) {
-		Categoria categoriaSalva = categoriaRepository.save(categoria);
+	public ResponseEntity<Pessoa> criar(@Valid @RequestBody Pessoa pessoa, HttpServletResponse response) {
+		Pessoa pessoaSalva = pessoaRepositoy.save(pessoa);
 		
 		//Retorna a URI do recurso salvo no cabeçalho da resposta
 		URI uri = ServletUriComponentsBuilder
 				.fromCurrentRequestUri()
 				.path("/{codigo}")
-				.buildAndExpand(categoriaSalva.getCodigo()).toUri();
+				.buildAndExpand(pessoaSalva.getId()).toUri();
 		
-		return ResponseEntity.created(uri).body(categoriaSalva);
+		return ResponseEntity.created(uri).body(pessoaSalva);
 	}
 	
-	@GetMapping("/{codigo}")
-	public ResponseEntity<Categoria> buscarPeloCodigo(@PathVariable Long codigo) {
+	@GetMapping("/{id}")
+	public ResponseEntity<Pessoa> buscarPeloCodigo(@PathVariable Long id) {
 		
-		return categoriaRepository.findById(codigo)
-				.map(categoria -> ResponseEntity.ok(categoria))
+		return pessoaRepositoy.findById(id)
+				.map(pessoa -> ResponseEntity.ok(pessoa))
 				.orElse(ResponseEntity.notFound().build());
 	}
 }
