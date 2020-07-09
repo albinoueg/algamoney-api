@@ -18,7 +18,7 @@ public class PessoaService {
 		Pessoa pessoaSalva = pessoaRepositoy.findById(codigo)
 				.orElseThrow(() -> new EmptyResultDataAccessException(1));
 		
-		BeanUtils.copyProperties(pessoa, pessoaSalva, "id");
+		BeanUtils.copyProperties(pessoa, pessoaSalva, "codigo");
 		
 		return pessoaRepositoy.save(pessoaSalva);
 	}
