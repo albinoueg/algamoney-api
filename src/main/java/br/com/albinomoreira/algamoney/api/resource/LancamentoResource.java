@@ -30,6 +30,7 @@ import br.com.albinomoreira.algamoney.api.exceptionhandler.ErrorMessages;
 import br.com.albinomoreira.algamoney.api.model.Lancamento;
 import br.com.albinomoreira.algamoney.api.repository.LancamentoRepository;
 import br.com.albinomoreira.algamoney.api.repository.filter.LancamentoFilter;
+import br.com.albinomoreira.algamoney.api.repository.projection.ResumoLancamento;
 import br.com.albinomoreira.algamoney.api.service.LancamentoService;
 import br.com.albinomoreira.algamoney.api.service.exception.PessoaInexistenteOuInativaException;
 
@@ -52,6 +53,12 @@ public class LancamentoResource {
 	@GetMapping
 	public Page<Lancamento> pesquisar(LancamentoFilter lancamentoFilter, Pageable pageable){
 		return lancamentoRepository.filtrar(lancamentoFilter, pageable);
+		
+	}
+	
+	@GetMapping(params = "resumo")
+	public Page<ResumoLancamento> resumir(LancamentoFilter lancamentoFilter, Pageable pageable){
+		return lancamentoRepository.resumir(lancamentoFilter, pageable);
 		
 	}
 	
